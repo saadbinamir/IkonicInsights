@@ -12,20 +12,20 @@ class FeedbackController extends Controller
     public function storeFeedback(Request $request)
     {
         // Validate the request data
-        $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
-            'title' => 'required',
-            'description' => 'required',
-            'category' => 'required|in:bug report,feature request,improvement,other',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'user_id' => 'required',
+        //     'title' => 'required',
+        //     'description' => 'required',
+        //     // 'category' => 'required|in:bug Bug Report,Feature Request,Improvement',
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 422,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'status' => 422,
+        //         'message' => 'Validation failed',
+        //         'errors' => $validator->errors(),
+        //     ], 422);
+        // }
 
         $feedback = Feedback::create([
             'user_id' => $request->input('user_id'),
@@ -35,44 +35,45 @@ class FeedbackController extends Controller
         ]);
 
         return response()->json([
-            'status' => 201,
+            'status' => 200,
             'message' => 'Feedback created successfully',
             'feedback' => $feedback,
         ], 201);
     }
 
-    // public function getAllFeedbackWithComments()
-    // {
-    //     // Get all feedback along with their comments
-    //     $feedbackWithComments = Feedback::with('comments')->get();
-
-    //     // Transform the data into the desired structure
-    //     $result = [];
-
-    //     foreach ($feedbackWithComments as $feedback) {
-    //         $result[] = [
-    //             'feedback' => $feedback,
-    //             'comments' => $feedback->comments,
-    //         ];
-    //     }
-
-    //     return response()->json([
-    //         'status' => 200,
-    //         'data' => $result,
-    //     ]);
-    // }
     public function getAllFeedbackWithComments()
     {
-        $feedbacks = Feedback::all();
+        $feedbacks = Feedback::with('comments.user')->get();
 
-        // Transform the data into the desired structure
         $result = [];
 
         foreach ($feedbacks as $feedback) {
-            $result[] = [
-                'feedback' => $feedback,
-                'comments' => $feedback->getComments(), // Use the new method
+            $feedbackData = [
+                'id' => $feedback->id,
+                'user_id' => $feedback->user_id,
+                'title' => $feedback->title,
+                'description' => $feedback->description,
+                'category' => $feedback->category,
+                'created_at' => $feedback->created_at,
+                'updated_at' => $feedback->updated_at,
+                'user_name' => $feedback->user->name,
+                'comments' => [],
             ];
+
+            foreach ($feedback->comments as $comment) {
+                $feedbackData['comments'][] = [
+                    'id' => $comment->id,
+                    'user_id' => $comment->user_id,
+                    'feedback_id' => $comment->feedback_id,
+                    'content' => $comment->content,
+                    'created_at' => $comment->created_at,
+                    'updated_at' => $comment->updated_at,
+                    'user_name' => $comment->user->name,
+                    'formatted_date' => $comment->created_at->format('d-m-y'),
+                ];
+            }
+
+            $result[] = $feedbackData;
         }
 
         return response()->json([

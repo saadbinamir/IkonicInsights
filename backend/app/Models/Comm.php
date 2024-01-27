@@ -15,6 +15,10 @@ class Comm extends Model
 
     public function feedback()
     {
-        return $this->belongsTo(Feedback::class);
+        return $this->belongsTo(Feedback::class, 'feedback_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -11,14 +11,12 @@ class CommentController extends Controller
 {
     public function storeComment(Request $request)
     {
-        // Validate the request data
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'feedback_id' => 'required|exists:feedback,id',
             'content' => 'required',
         ]);
 
-        // Return validation errors if they exist
         if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
@@ -27,7 +25,6 @@ class CommentController extends Controller
             ], 422);
         }
 
-        // Create a new comment
         $comment = Comm::create([
             'user_id' => $request->input('user_id'),
             'feedback_id' => $request->input('feedback_id'),
@@ -35,7 +32,7 @@ class CommentController extends Controller
         ]);
 
         return response()->json([
-            'status' => 201,
+            'status' => 200,
             'message' => 'Comment created successfully',
             'comment' => $comment,
         ], 201);

@@ -50,7 +50,7 @@ export default function Sidebar() {
               Logout
             </Link>
             <Link
-              to={"/profile"}
+              // to={"/profile"}
               className="py-2 px-4 rounded-2xl z-50"
               style={{
                 color: "#C39601",

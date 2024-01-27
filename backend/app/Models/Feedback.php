@@ -17,8 +17,15 @@ class Feedback extends Model
         return $this->hasMany(Comm::class);
     }
 
+
     public function getComments()
     {
         return $this->comments()->get();
+    }
+
+    // Feedback model
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

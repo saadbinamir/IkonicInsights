@@ -28,7 +28,6 @@ export default function NavBar() {
             IkonicInsights
           </span>
         </Link>
-        {/* <nav className=" p-11 md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400 flex flex-wrap items-center text-base justify-center z-50"> */}
 
         {auth.user ? (
           <div>
