@@ -92,7 +92,7 @@ export default function Login() {
                     className="block mb-2 text-sm font-medium "
                     style={{ color: "#F6F6F6" }}
                   >
-                    Email / Enrollment
+                    Email
                   </label>
                   <input
                     type="text"
@@ -100,7 +100,7 @@ export default function Login() {
                     id="email"
                     className="sm:text-sm rounded-lg  block w-full p-2.5 "
                     style={{ backgroundColor: "#111111", color: "#F6F6F6" }}
-                    placeholder="name@company.com | 01-123456-001"
+                    placeholder="name@company.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
