@@ -1,14 +1,20 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Comm extends Model
 {
     use HasFactory;
     protected $table = 'comments';
 
     protected $fillable = ['user_id', 'feedback_id', 'content'];
+
+
+    public function feedback()
+    {
+        return $this->belongsTo(Feedback::class);
+    }
 }

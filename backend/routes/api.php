@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\FeedbackController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
@@ -22,3 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('signup', [UserController::class, 'signup']);
 Route::post('login', [UserController::class, 'login']);
+
+
+Route::post('storeFeedback', [FeedbackController::class, 'storeFeedback']);
+Route::get('getAllFeedbackWithComments', [FeedbackController::class, 'getAllFeedbackWithComments']);
+
+
+Route::post('storeComment', [CommentController::class, 'storeComment']);

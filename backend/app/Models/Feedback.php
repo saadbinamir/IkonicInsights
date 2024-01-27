@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-use App\Comment;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -12,5 +12,13 @@ class Feedback extends Model
 
     protected $fillable = ['user_id', 'title', 'description', 'category'];
 
+    public function comments()
+    {
+        return $this->hasMany(Comm::class);
+    }
 
+    public function getComments()
+    {
+        return $this->comments()->get();
+    }
 }
